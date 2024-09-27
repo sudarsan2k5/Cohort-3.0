@@ -49,13 +49,48 @@ app.post('/signin', async (req, res) => {
     }
 });
 
-app.post('/todo', (req, res) => {
 
+app.post('/todo', auth,(req, res) => {
+    const userId = req.userId;
+    const title = req.body.title;
+    TodoModel.create({
+        userId,
+        title
+    })
+    // console.log("TODOS");
+    // console.log(userId);
+    res.json({
+        userId: userId
+    });
 });
 
-app.get('/todos', (req, res) => {
+app.get('/todos', auth,async (req, res) => {
+    const userId = req.userId;
+    const todos = await TodoModel.find({
+        userId: userId
+    })
 
+    res.json({
+        todos: todos
+    });
 });
+
+function auth(req, res, next){
+    const token = req.headers.token;
+    const deCodeData = jwt.verify(token, JWT_SECRET);
+    console.log("Hello");
+    console.log(deCodeData);
+    if(deCodeData){
+        req.userId = deCodeData.id;
+        next();
+    }else{
+        res.json({
+            msg: "Incorrect Credential"     
+        })
+    }
+}
+
+
 
 app.listen(8000, () => {
     console.log("Server Listing.....");
