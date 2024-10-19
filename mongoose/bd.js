@@ -7,6 +7,11 @@ const User = new Schema({
     password: String,
     name: String
 });
+const User = new Schema({
+    email: String,
+    password: String,
+    name: String
+});
 
 const Todo = new Schema({
     title: String,
