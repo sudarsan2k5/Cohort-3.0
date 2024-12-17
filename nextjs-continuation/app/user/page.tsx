@@ -1,18 +1,24 @@
-import axios from "axios"
+import axios from "axios";
 
-export default async function User(){
+async function getUser(){
+    
+}
 
-    const respose = await axios.get("https://dummyjson.com/todos/random");
+export default async function UserInfo(){
+    // const userData = await getUser()
+    
+    const userData = await axios.get("https://week-13-offline.kirattechnologies.workers.dev/api/v1/user/details");
 
-    const data = respose.data;
+    await new Promise(r => setTimeout(r, 5000));
 
+    // Promise(r = setimeout(r, 5000));
 
-
+    const daata =  userData.data;
     return <div>
-       
-        <div className="flex">
-        {data.id}
-        </div>
-        {data.todo}
+        <div className="flex
+        ">{daata.email}</div>
+        
+        {daata.name}
     </div>
+    
 }
